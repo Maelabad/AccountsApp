@@ -58,54 +58,55 @@ AccountsApp est une API REST Django complète pour la gestion des utilisateurs, 
     python manage.py runserver  
 
 ## Configuration des Emails
-L'application utilise le système d'emails de Django pour envoyer des notifications et des codes OTP. Configurez les paramètres suivants dans settings.py :   
-```bash
-# Configuration des emails
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.votre-fournisseur.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'votre-email@domaine.com'
-EMAIL_HOST_PASSWORD = 'votre-mot-de-passe'
-DEFAULT_FROM_EMAIL = 'Votre Application <noreply@votreapp.com>'
+   -  L'application utilise le système d'emails de Django pour envoyer des notifications et des codes OTP. Configurez les paramètres suivants dans settings.py :
+      ```bash
+      # Configuration des emails
+      EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+      EMAIL_HOST = 'smtp.votre-fournisseur.com'
+      EMAIL_PORT = 587
+      EMAIL_USE_TLS = True
+      EMAIL_HOST_USER = 'votre-email@domaine.com'
+      EMAIL_HOST_PASSWORD = 'votre-mot-de-passe'
+      DEFAULT_FROM_EMAIL = 'Votre Application <noreply@votreapp.com>'
 
-Pour le développement, vous pouvez utiliser le backend de console qui affiche les emails dans la console :
-```bash
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+   -  Pour le développement, vous pouvez utiliser le backend de console qui affiche les emails dans la console :
+      ```bash
+      EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ## Traitement Asynchrone avec Celery et Redis (Optionnel)
 Pour améliorer les performances, l'envoi d'emails et d'autres tâches peuvent être exécutés de manière asynchrone avec Celery et Redis.
--  Installation des dépendances
-  ```bash
-  pip install celery redis
+   -  Installation des dépendances
+     ```bash
+     pip install celery redis
 
-- Configuration dans settings.py
-  ```bash
-  # Celery Configuration
-  CELERY_BROKER_URL = 'redis://localhost:6379/0'
-  CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-  CELERY_ACCEPT_CONTENT = ['json']
-  CELERY_TASK_SERIALIZER = 'json'
-  CELERY_RESULT_SERIALIZER = 'json'
-  CELERY_TIMEZONE = 'UTC'
 
-- Création du fichier celery.py à la racine du projet
-      Créez un fichier celery.py dans le dossier principal du projet (à côté de settings.py) :
-  ```bash
-  import os
-  from celery import Celery
-  
-  # Définir les paramètres par défaut de Django
-  os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AccountsApp.settings')
-  
-  app = Celery('AccountsApp')
-  app.config_from_object('django.conf:settings', namespace='CELERY')
-  app.autodiscover_tasks()
+   - Configuration dans settings.py
+     ```bash
+     # Celery Configuration
+     CELERY_BROKER_URL = 'redis://localhost:6379/0'
+     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+     CELERY_ACCEPT_CONTENT = ['json']
+     CELERY_TASK_SERIALIZER = 'json'
+     CELERY_RESULT_SERIALIZER = 'json'
+     CELERY_TIMEZONE = 'UTC'
 
-- Démarrage de Celery
-  ```bash
-  # Dans un terminal séparé
-  celery -A AccountsApp worker -l info
+   - Création du fichier celery.py à la racine du projet
+         Créez un fichier celery.py dans le dossier principal du projet (à côté de settings.py) :
+     ```bash
+     import os
+     from celery import Celery
+     # Définir les paramètres par défaut de Django
+     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AccountsApp.settings')
+     
+     app = Celery('AccountsApp')
+     app.config_from_object('django.conf:settings', namespace='CELERY')
+     app.autodiscover_tasks()
+
+   - Démarrage de Celery
+     ```bash
+     # Dans un terminal séparé
+     celery -A AccountsApp worker -l info
 
 En utilisant Celery et Redis, vous pouvez exécuter l'envoi d'emails et d'autres tâches longues de manière asynchrone, ce qui améliore considérablement les performances de votre API.
 
