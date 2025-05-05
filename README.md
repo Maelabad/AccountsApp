@@ -1,6 +1,3 @@
-# AccountsApp
-Système de Gestion d'Utilisateurs 
-
 # AccountsApp - Système de Gestion d'Utilisateurs
 
 AccountsApp est une API REST Django complète pour la gestion des utilisateurs, offrant des fonctionnalités avancées d'authentification et de gestion de profil.
@@ -61,8 +58,7 @@ AccountsApp est une API REST Django complète pour la gestion des utilisateurs, 
     python manage.py runserver  
 
 ## Configuration des Emails
-L'application utilise le système d'emails de Django pour envoyer des notifications et des codes OTP. Configurez les paramètres suivants dans settings.py :
-
+L'application utilise le système d'emails de Django pour envoyer des notifications et des codes OTP. Configurez les paramètres suivants dans settings.py :   
 ```bash
 # Configuration des emails
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -74,8 +70,8 @@ EMAIL_HOST_PASSWORD = 'votre-mot-de-passe'
 DEFAULT_FROM_EMAIL = 'Votre Application <noreply@votreapp.com>'
 
 Pour le développement, vous pouvez utiliser le backend de console qui affiche les emails dans la console :
-  ```bash
-  EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+```bash
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ## Traitement Asynchrone avec Celery et Redis (Optionnel)
 Pour améliorer les performances, l'envoi d'emails et d'autres tâches peuvent être exécutés de manière asynchrone avec Celery et Redis.
